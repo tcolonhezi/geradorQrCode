@@ -114,27 +114,25 @@ async function generatePdf() {
   const pdfDocument = buildPdfDocument();
   const fileName = 'wifi-' + $('ssid').value.trim().replace(/[^\w-]+/g, '_') + '.pdf';
 
-  let downloadHandler = null;
   try {
-    downloadHandler = await claude.use('downloads');
-  } catch (error) {
-    // Sem handler de download disponível no ambiente atual.
-  }
+    if (window.showSaveFilePicker) {
+      const fileHandle = await window.showSaveFilePicker({
+        suggestedName: fileName,
+        types: [{description: 'PDF', accept: {'application/pdf': ['.pdf']}}]
+      });
 
-  if (downloadHandler) {
-    try {
-      await downloadHandler.save({filename: fileName, data: pdfDocument.output('blob')});
+      const fileBlob = pdfDocument.output('blob');
+      const writableStream = await fileHandle.createWritable();
+      await writableStream.write(fileBlob);
+      await writableStream.close();
       messageBox.textContent = 'PDF pronto.';
-    } catch (error) {
-      messageBox.textContent = error && error.code === 'declined' ? 'Download cancelado.' : 'Não foi possível salvar o PDF.';
+      return;
     }
-  } else {
-    try {
-      pdfDocument.save(fileName);
-      messageBox.textContent = 'PDF gerado.';
-    } catch (error) {
-      messageBox.textContent = 'Download indisponível neste ambiente.';
-    }
+
+    pdfDocument.save(fileName);
+    messageBox.textContent = 'PDF gerado.';
+  } catch (error) {
+    messageBox.textContent = error && error.name === 'AbortError' ? 'Download cancelado.' : 'Não foi possível salvar o PDF.';
   }
 }
 
