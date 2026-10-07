@@ -184,3 +184,35 @@ button:disabled {
   color: var(--mut);
   margin-top: 10px
 }
+
+.tpl-grid {
+  border: 0; padding: 0; margin: 0 0 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+  gap: 10px;
+}
+.tpl-grid legend { padding: 0; margin-bottom: 6px; }
+
+.tpl-opt { display: flex; flex-direction: column; align-items: center; gap: 4px; cursor: pointer; }
+
+/* esconde o radio, mas mantém acessível por teclado */
+.tpl-opt input {
+  position: absolute; opacity: 0; width: 1px; height: 1px;
+}
+
+.tpl-thumb {
+  width: 100%; aspect-ratio: 424 / 1025; object-fit: cover;
+  border: 3px solid transparent; border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.25);
+  box-sizing: border-box;
+}
+.tpl-simple {
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  background: #fff; color: #000; border: 2px solid #000; font-size: 12px; line-height: 1.6;
+}
+
+.tpl-opt:hover .tpl-thumb { transform: translateY(-2px); }
+.tpl-opt input:checked + .tpl-thumb { border-color: #2563eb; }
+.tpl-opt input:focus-visible + .tpl-thumb { outline: 2px solid #2563eb; outline-offset: 2px; }
+.tpl-opt input:checked ~ .tpl-name { font-weight: 700; }
+.tpl-name { font-size: 13px; }

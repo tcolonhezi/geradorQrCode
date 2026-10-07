@@ -17,13 +17,6 @@
     <p class="sub">Preencha os dados da rede e gere um PDF A4 com cartões para recortar e entregar aos clientes.</p>
 
     <div class="panel">
-      <label for="tpl">Modelo do cartão</label>
-      <select id="tpl">
-        <option value="simple">Simples (6 cartões por folha)</option>
-        <option value="1">Corporativo / Moderno</option>
-        <option value="2">Minimalista / Clean</option>
-        <option value="3">Supermercado / Amigável</option>
-      </select>
       <label for="ssid">Nome da rede (SSID)</label>
       <input type="text" id="ssid" value="SSID DA REDE" autocomplete="off">
       <label for="enc">Criptografia</label>
@@ -46,6 +39,34 @@
       <div class="pc" id="pc"></div>
       <div class="cap">Pré-visualização de um cartão</div>
     </div>
+
+    <fieldset class="tpl-grid">
+      <legend>Modelo do cartão</legend>
+
+      <label class="tpl-opt">
+        <input type="radio" name="tpl" value="simple" checked>
+        <span class="tpl-thumb tpl-simple">Rede<br>▦<br>Senha</span>
+        <span class="tpl-name">Simples</span>
+      </label>
+
+      <label class="tpl-opt">
+        <input type="radio" name="tpl" value="1">
+        <img class="tpl-thumb" src="templates/wifi-modelo-1.png" alt="">
+        <span class="tpl-name">Corporativo</span>
+      </label>
+
+      <label class="tpl-opt">
+        <input type="radio" name="tpl" value="2">
+        <img class="tpl-thumb" src="templates/wifi-modelo-2.png" alt="">
+        <span class="tpl-name">Minimalista</span>
+      </label>
+
+      <label class="tpl-opt">
+        <input type="radio" name="tpl" value="3">
+        <img class="tpl-thumb" src="templates/wifi-modelo-3.png" alt="">
+        <span class="tpl-name">Supermercado</span>
+      </label>
+    </fieldset>
   </main>
 </body>
 

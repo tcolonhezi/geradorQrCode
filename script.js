@@ -63,11 +63,13 @@ function loadImageDataUrl(url) {
   return imageCache[url];
 }
 
-const isSimpleTemplateSelected = () => !$("tpl") || $("tpl").value === "simple";
+const getTplValue = () =>
+  document.querySelector('input[name="tpl"]:checked')?.value || "simple";
+
+const isSimpleTemplateSelected = () => getTplValue() === "simple";
 
 function getTemplate() {
-  const selectedTemplateId = $("tpl").value;
-  return TEMPLATES[selectedTemplateId] || TEMPLATES["1"];
+  return TEMPLATES[getTplValue()] || TEMPLATES["1"];
 }
 
 function buildWifiPayload() {
@@ -156,7 +158,8 @@ function updatePreview() {
     toPercentage(selectedTemplate.qr.side) +
     ";";
   qrContainer.style.top = toPercentage(
-    selectedTemplate.qr.cy - (selectedTemplate.qr.side * selectedTemplate.ratio) / 2,
+    selectedTemplate.qr.cy -
+      (selectedTemplate.qr.side * selectedTemplate.ratio) / 2,
   );
   qrContainer.innerHTML = qrCode.createSvgTag({
     cellSize: 4,
@@ -175,7 +178,8 @@ function updatePreview() {
     const maximumPixels = selectedTemplate.fontPx;
     const fittedSize = Math.min(
       maximumPixels,
-      (textArea.w * imageWidthPixels) / (Math.max(textContent.length, 1) * 0.58),
+      (textArea.w * imageWidthPixels) /
+        (Math.max(textContent.length, 1) * 0.58),
     );
     const textElement = document.createElement("div");
     textElement.textContent = textContent;
@@ -434,6 +438,9 @@ async function generatePdf() {
 ["ssid", "pw", "enc", "hidden", "showpw"].forEach((fieldId) =>
   $(fieldId).addEventListener("blur", updatePreview),
 );
-if ($("tpl")) $("tpl").addEventListener("change", updatePreview);
+document
+  .querySelectorAll('input[name="tpl"]')
+  .forEach((radio) => radio.addEventListener("change", updatePreview));
+
 $("go").addEventListener("click", generatePdf);
 updatePreview();
